@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  max-width: 550px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #34495e;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fefefe;
+}
+
+label {
+  font-weight: bold;
+  color: #444;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.erro {
+  color: red;
+  font-size: 0.9em;
+}
+
+.mensagem {
+  margin-top: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: green;
+}
+
+.mensagem.erro {
+  color: red;
+}

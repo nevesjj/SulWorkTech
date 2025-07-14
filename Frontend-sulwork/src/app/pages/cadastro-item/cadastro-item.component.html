@@ -1,0 +1,61 @@
+<h2>Adicionar Item</h2>
+
+<form (ngSubmit)="submit(form)" #form="ngForm" novalidate>
+
+  <label for="cpfColaborador">CPF do colaborador:</label>
+  <input
+    id="cpfColaborador"
+    type="text"
+    [(ngModel)]="item.cpfColaborador"
+    name="cpfColaborador"
+    required
+    maxlength="11"
+    pattern="[0-9]{11}"
+    #cpf="ngModel"
+  />
+  <div *ngIf="cpf.invalid && cpf.touched" class="erro">
+    CPF deve conter 11 números.
+  </div>
+
+  <br /><br />
+
+  <label for="descricao">Descrição:</label>
+  <input
+    id="descricao"
+    type="text"
+    [(ngModel)]="item.descricao"
+    name="descricao"
+    required
+    maxlength="40"
+    #descricao="ngModel"
+  />
+  <div *ngIf="descricao.invalid && descricao.touched" class="erro">
+    A descrição é obrigatória e deve ter até 40 caracteres.
+  </div>
+
+  <br /><br />
+
+  <label for="dataCafe">Data do Café:</label>
+  <input
+    id="dataCafe"
+    type="text"
+    [(ngModel)]="item.dataCafe"
+    name="dataCafe"
+    placeholder="dd/MM/yyyy"
+    required
+    pattern="^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}$"
+    #dataCafe="ngModel"
+/>
+
+  <div *ngIf="dataCafe.invalid && dataCafe.touched" class="erro">
+    Use o formato válido dd/MM/yyyy.
+  </div>
+
+  <br /><br />
+
+  <button type="submit" [disabled]="form.invalid">Adicionar</button>
+</form>
+
+<p *ngIf="mensagem" [style.color]="mensagem.startsWith('❌') ? 'red' : 'green'">
+  {{ mensagem }}
+</p>

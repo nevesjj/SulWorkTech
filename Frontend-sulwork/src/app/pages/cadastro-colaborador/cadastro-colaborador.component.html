@@ -1,0 +1,43 @@
+<h2>Cadastro de Colaborador</h2>
+
+<form (ngSubmit)="submit(form)" #form="ngForm" novalidate>
+
+  <label for="nome">Nome:</label><br />
+  <input
+    type="text"
+    id="nome"
+    name="nome"
+    [(ngModel)]="colaborador.nome"
+    required
+    maxlength="50"
+    #nome="ngModel"
+  />
+  <div *ngIf="nome.invalid && nome.touched" class="erro">
+    Nome é obrigatório e deve ter no máximo 50 caracteres.
+  </div>
+
+  <br /><br />
+
+  <label for="cpf">CPF:</label><br />
+  <input
+    type="text"
+    id="cpf"
+    name="cpf"
+    [(ngModel)]="colaborador.cpf"
+    required
+    maxlength="11"
+    pattern="[0-9]{11}"
+    #cpf="ngModel"
+  />
+  <div *ngIf="cpf.invalid && cpf.touched" class="erro">
+    CPF deve conter exatamente 11 números.
+  </div>
+
+  <br /><br />
+
+  <button type="submit" [disabled]="form.invalid">Cadastrar</button>
+</form>
+
+<p *ngIf="mensagem" [style.color]="mensagem.startsWith('❌') ? 'red' : 'green'">
+  {{ mensagem }}
+</p>

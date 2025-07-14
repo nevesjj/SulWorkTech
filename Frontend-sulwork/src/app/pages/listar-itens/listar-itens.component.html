@@ -1,0 +1,55 @@
+<h2>Itens do Café da Manhã</h2>
+
+<form (ngSubmit)="buscarPorData()" #form="ngForm" novalidate>
+  <label for="data">Data (dd/MM/yyyy):</label>
+  <input
+  id="data"
+  type="text"
+  [(ngModel)]="data"
+  name="data"
+  required
+  maxlength="10"
+  #dataInput="ngModel"
+/>
+  <button type="submit" [disabled]="form.invalid">Buscar</button>
+  <div *ngIf="dataInput.invalid && dataInput.touched" style="color:red;">
+    Data inválida. Use o formato dd/MM/yyyy.
+  </div>
+</form>
+
+<p *ngIf="mensagem" [style.color]="mensagem.startsWith('❌') ? 'red' : 'green'" style="margin-top: 15px;">
+  {{ mensagem }}
+</p>
+
+<table *ngIf="itens.length > 0" border="1" cellpadding="8" style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Data</th>
+      <th>CPF</th>
+      <th>Status</th>
+      <th>Marcar Entregue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of itens">
+      <td>{{ item.descricao }}</td>
+      <td>{{ item.dataCafe }}</td>
+      <td>{{ item.cpfColaborador }}</td>
+      <td [style.color]="item.entregue ? 'green' : 'red'">
+        {{ item.entregue ? '✅ Entregue' : '❌ Não entregue' }}
+      </td>
+      <td>
+        <input
+          type="checkbox"
+          [checked]="item.entregue"
+          (change)="atualizarEntregue(item)"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
