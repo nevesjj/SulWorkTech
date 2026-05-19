@@ -14,7 +14,5 @@ public class ColaboradorDto {
     private String nome;
 
     public ColaboradorDto() {
-        this.cpf = cpf;
-        this.nome = nome;
     }
 }

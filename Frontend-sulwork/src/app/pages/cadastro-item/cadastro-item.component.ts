@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CafeService, ItemCafe } from '../../services/cafe.service';
+import { CadastroItem } from '../../models/cadastro-item';
 
 @Component({
   selector: 'app-cadastro-item',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cadastro-item.component.html',
-  styleUrls: ['./cadastro-item.component.css']
+  styleUrls: ['./cadastro-item.component.css'],
 })
 export class CadastroItemComponent {
-  item: ItemCafe = {
+  item: CadastroItem = {
     descricao: '',
     dataCafe: '',
-    cpfColaborador: ''
+    cpfColaborador: '',
   };
 
   mensagem: string = '';
@@ -39,7 +40,7 @@ export class CadastroItemComponent {
         } else {
           this.mensagem = '❌ Erro ao adicionar item.';
         }
-      }
+      },
     });
   }
 }

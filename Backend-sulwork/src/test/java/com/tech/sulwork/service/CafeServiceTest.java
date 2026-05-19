@@ -88,30 +88,47 @@ class CafeServiceTest {
     void listarItensPorData_DeveRetornarItens_QuandoHouverItens() {
         String dataStr = "01/01/2024";
         LocalDate data = LocalDate.of(2024, 1, 1);
-        when(itemCafeRepo.findAllByDataCafe(data)).thenReturn(Arrays.asList(itemCafe));
+        ItemCafeDto dtoEsperado = new ItemCafeDto(
+                1L,
+                "Café Premium",
+                LocalDate.now().plusDays(1),
+                false,
+                "12345678901",
+                "João Silva"
+        );
+        when(itemCafeRepo.findAllByDataCafe(data)).thenReturn(Arrays.asList(dtoEsperado));
 
         List<ItemCafeDto> resultado = cafeService.listarItensPorData(dataStr);
 
         assertEquals(1, resultado.size());
         ItemCafeDto dto = resultado.get(0);
-        assertEquals(itemCafe.getIdItem(), dto.getIdItem());
-        assertEquals(itemCafe.getDescricao(), dto.getDescricao());
-        assertEquals(itemCafe.getDataCafe(), dto.getDataCafe());
-        assertEquals(itemCafe.getEntregue(), dto.getEntregue());
-        assertEquals(colaborador.getCpf(), dto.getCpfColaborador());
+        assertEquals(dtoEsperado.getIdItem(), dto.getIdItem());
+        assertEquals(dtoEsperado.getDescricao(), dto.getDescricao());
+        assertEquals(dtoEsperado.getDataCafe(), dto.getDataCafe());
+        assertEquals(dtoEsperado.getEntregue(), dto.getEntregue());
+        assertEquals(dtoEsperado.getCpfColaborador(), dto.getCpfColaborador());
+        assertEquals(dtoEsperado.getNomeColaborador(), dto.getNomeColaborador());
     }
 
     @Test
-    void listarItensPorData_DeveRetornarCpfNull_QuandoColaboradorForNull() {
+    void listarItensPorData_DeveRetornarCpfENomeNull_QuandoColaboradorForNull() {
         String dataStr = "01/01/2024";
         LocalDate data = LocalDate.of(2024, 1, 1);
-        itemCafe.setColaborador(null);
-        when(itemCafeRepo.findAllByDataCafe(data)).thenReturn(Arrays.asList(itemCafe));
+        ItemCafeDto dtoEsperado = new ItemCafeDto(
+                1L,
+                "Café Premium",
+                LocalDate.now().plusDays(1),
+                false,
+                null,
+                null
+        );
+        when(itemCafeRepo.findAllByDataCafe(data)).thenReturn(Arrays.asList(dtoEsperado));
 
         List<ItemCafeDto> resultado = cafeService.listarItensPorData(dataStr);
 
         assertEquals(1, resultado.size());
         assertNull(resultado.get(0).getCpfColaborador());
+        assertNull(resultado.get(0).getNomeColaborador());
     }
 
     @Test

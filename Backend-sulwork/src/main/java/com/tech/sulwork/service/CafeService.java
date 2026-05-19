@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CafeService {
@@ -28,17 +27,7 @@ public class CafeService {
 
     public List<ItemCafeDto> listarItensPorData(String dataStr) {
         LocalDate data = LocalDate.parse(dataStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        List<ItemCafe> itens = itemCafeRepo.findAllByDataCafe(data);
-
-        return itens.stream()
-                .map(item -> new ItemCafeDto(
-                        item.getIdItem(),
-                        item.getDescricao(),
-                        item.getDataCafe(),
-                        item.getEntregue(),
-                        item.getColaborador() != null ? item.getColaborador().getCpf() : null
-                ))
-                .collect(Collectors.toList());
+        return itemCafeRepo.findAllByDataCafe(data);
     }
 
 
@@ -64,25 +53,25 @@ public class CafeService {
 
     @Transactional
     public void adicionarItem(ItemCafeDto dto) {
-        Colaborador colaborador = colaboradorRepo.findByCpf(dto.cpfColaborador);
+        Colaborador colaborador = colaboradorRepo.findByCpf(dto.getCpfColaborador());
         if (colaborador == null) {
             throw new IllegalArgumentException("Colaborador não encontrado.");
         }
 
-        if (dto.dataCafe.isBefore(LocalDate.now())) {
+        if (dto.getDataCafe().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Data deve ser futura.");
         }
 
-        int jaExiste = itemCafeRepo.existsItemNaData(dto.descricao, dto.dataCafe);
+        int jaExiste = itemCafeRepo.existsItemNaData(dto.getDescricao(), dto.getDataCafe());
 
         if (jaExiste > 0) {
             throw new IllegalArgumentException("Esse item já foi escolhido para essa data.");
         }
 
         ItemCafe item = new ItemCafe();
-        item.setDescricao(dto.descricao);
-        item.setDataCafe(dto.dataCafe);
-        item.setEntregue(dto.entregue != null ? dto.entregue : false);
+        item.setDescricao(dto.getDescricao());
+        item.setDataCafe(dto.getDataCafe());
+        item.setEntregue(dto.getEntregue() != null ? dto.getEntregue() : false);
         item.setColaborador(colaborador);
 
         itemCafeRepo.save(item);

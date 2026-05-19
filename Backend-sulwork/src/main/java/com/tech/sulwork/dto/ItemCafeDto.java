@@ -9,13 +9,13 @@ import java.time.LocalDate;
 public class ItemCafeDto {
 
     private Long idItem;
-
-    public String descricao;
+    private String descricao;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    public LocalDate dataCafe;
-    public Boolean entregue;
-    public String cpfColaborador;
+    private LocalDate dataCafe;
+    private Boolean entregue;
+    private String cpfColaborador;
+    private String nomeColaborador;
 
     public ItemCafeDto(Long idItem, String descricao, LocalDate dataCafe, Boolean entregue, String cpfColaborador) {
         this.idItem = idItem;
@@ -23,6 +23,15 @@ public class ItemCafeDto {
         this.dataCafe = dataCafe;
         this.entregue = entregue;
         this.cpfColaborador = cpfColaborador;
+    }
+
+    public ItemCafeDto(Long idItem, String descricao, LocalDate dataCafe, Boolean entregue, String cpfColaborador, String nomeColaborador) {
+        this.idItem = idItem;
+        this.descricao = descricao;
+        this.dataCafe = dataCafe;
+        this.entregue = entregue;
+        this.cpfColaborador = cpfColaborador;
+        this.nomeColaborador = nomeColaborador;
     }
 
     public ItemCafeDto() {
