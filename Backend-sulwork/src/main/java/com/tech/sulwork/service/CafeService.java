@@ -36,7 +36,8 @@ public class CafeService {
                         item.getDescricao(),
                         item.getDataCafe(),
                         item.getEntregue(),
-                        item.getColaborador() != null ? item.getColaborador().getCpf() : null
+                        item.getColaborador() != null ? item.getColaborador().getCpf() : null,
+                        item.getColaborador() != null ? item.getColaborador().getNome() : null
                 ))
                 .collect(Collectors.toList());
     }

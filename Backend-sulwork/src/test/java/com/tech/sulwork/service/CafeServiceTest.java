@@ -68,7 +68,8 @@ class CafeServiceTest {
                 "Café Premium",
                 LocalDate.now().plusDays(1),
                 false,
-                "12345678901"
+                "12345678901",
+                "Joao Pedro"
         );
     }
 

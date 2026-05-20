@@ -9,6 +9,7 @@
   name="data"
   required
   maxlength="10"
+  (input)="formatarData($event)"
   #dataInput="ngModel"
 />
   <button type="submit" [disabled]="form.invalid">Buscar</button>
@@ -26,7 +27,7 @@
     <tr>
       <th>Descrição</th>
       <th>Data</th>
-      <th>CPF</th>
+      <th>Nome do Colaborador</th>
       <th>Status</th>
       <th>Marcar Entregue</th>
     </tr>
@@ -35,8 +36,7 @@
     <tr *ngFor="let item of itens">
       <td>{{ item.descricao }}</td>
       <td>{{ item.dataCafe }}</td>
-      <td>{{ item.cpfColaborador }}</td>
-      <td [style.color]="item.entregue ? 'green' : 'red'">
+      <td>{{ item.nomeColaborador }}</td> <td [style.color]="item.entregue ? 'green' : 'red'">
         {{ item.entregue ? '✅ Entregue' : '❌ Não entregue' }}
       </td>
       <td>

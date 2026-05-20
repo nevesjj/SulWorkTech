@@ -53,4 +53,17 @@ export class ListarItensComponent {
       }
     });
   }
+
+  formatarData(event: any) {
+    let valor = event.target.value.replace(/\D/g, '');
+
+    if (valor.length > 2 && valor.length <= 4) {
+      valor = valor.substring(0, 2) + '/' + valor.substring(2);
+    } else if (valor.length > 4) {
+      valor = valor.substring(0, 2) + '/' + valor.substring(2, 4) + '/' + valor.substring(4, 8);
+    }
+
+    this.data = valor;
+    event.target.value = valor;
+  }
 }

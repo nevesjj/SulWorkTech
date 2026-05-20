@@ -4,5 +4,6 @@ export interface ItemCafe {
   dataCafe: string;
   entregue?: boolean;
   cpfColaborador: string;
+  nomeColaborador: string;
 }
 
