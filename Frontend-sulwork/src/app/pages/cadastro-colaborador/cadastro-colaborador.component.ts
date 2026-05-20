@@ -8,12 +8,12 @@ import { CafeService, Colaborador } from '../../services/cafe.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cadastro-colaborador.component.html',
-  styleUrls: ['./cadastro-colaborador.component.css']
+  styleUrls: ['./cadastro-colaborador.component.css'],
 })
 export class CadastroColaboradorComponent {
   colaborador: Colaborador = {
     nome: '',
-    cpf: ''
+    cpf: '',
   };
 
   mensagem: string = '';
@@ -22,6 +22,12 @@ export class CadastroColaboradorComponent {
 
   submit(form: NgForm) {
     this.mensagem = '';
+
+    const nomeValido = /^[A-Za-zÀ-ÿ\s]+$/.test(this.colaborador.nome.trim());
+    if (!nomeValido) {
+      this.mensagem = '❌ O nome deve conter apenas letras.';
+      return;
+    }
 
     if (form.invalid) return;
 
@@ -38,7 +44,7 @@ export class CadastroColaboradorComponent {
         } else {
           this.mensagem = '❌ Erro ao cadastrar colaborador.';
         }
-      }
+      },
     });
   }
 }
