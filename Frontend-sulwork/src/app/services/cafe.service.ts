@@ -1,19 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Colaborador {
-  nome: string;
-  cpf: string;
-}
-
-export interface ItemCafe {
-  descricao: string;
-  dataCafe: string;
-  entregue?: boolean;
-  cpfColaborador: string;
-  nomeColaborador: string;
-}
+import { Colaborador } from '../models/colaborador';
+import { ItemCafe } from '../models/item-cafe';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +18,7 @@ export class CafeService {
     });
   }
 
-  adicionarItem(item: ItemCafe): Observable<string> {
+  adicionarItem(item: Omit<ItemCafe, 'idItem'>): Observable<string> {
     return this.http.post(this.apiUrl + '/item', item, {
       responseType: 'text'
     });

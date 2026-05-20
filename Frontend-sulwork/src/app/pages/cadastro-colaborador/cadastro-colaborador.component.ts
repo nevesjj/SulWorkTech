@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { CafeService, Colaborador } from '../../services/cafe.service';
+import { CafeService } from '../../services/cafe.service';
+import { Colaborador } from '../../models/colaborador';
 
 @Component({
   selector: 'app-cadastro-colaborador',
@@ -32,14 +33,14 @@ export class CadastroColaboradorComponent {
     if (form.invalid) return;
 
     this.service.cadastrarColaborador(this.colaborador).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.mensagem = '✅ Colaborador cadastrado com sucesso!';
         this.colaborador = { nome: '', cpf: '' };
         form.resetForm();
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
-        if (err.error && typeof err.error === 'string') {
+        if (isErrorWithMessage(err)) {
           this.mensagem = '❌ ' + err.error;
         } else {
           this.mensagem = '❌ Erro ao cadastrar colaborador.';
@@ -47,4 +48,8 @@ export class CadastroColaboradorComponent {
       },
     });
   }
+}
+
+function isErrorWithMessage(err: unknown): err is { error: string } {
+  return typeof err === 'object' && err !== null && 'error' in err && typeof err.error === 'string';
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CafeService, ItemCafe } from '../../services/cafe.service';
+import { FormsModule } from '@angular/forms';
+import { CafeService } from '../../services/cafe.service';
+import { ItemCafe } from '../../models/item-cafe';
 
 @Component({
   selector: 'app-listar-itens',
@@ -43,7 +44,7 @@ export class ListarItensComponent {
   atualizarEntregue(item: ItemCafe) {
     const novoValor = !item.entregue;
   
-    this.service.atualizarEntregue((item as any).idItem, novoValor).subscribe({
+    this.service.atualizarEntregue(item.idItem, novoValor).subscribe({
       next: () => {
         item.entregue = novoValor;
         this.mensagem = '✅ Status atualizado.';
@@ -54,8 +55,11 @@ export class ListarItensComponent {
     });
   }
 
-  formatarData(event: any) {
-    let valor = event.target.value.replace(/\D/g, '');
+  formatarData(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (!target) return;
+
+    let valor = target.value.replace(/\D/g, '');
 
     if (valor.length > 2 && valor.length <= 4) {
       valor = valor.substring(0, 2) + '/' + valor.substring(2);
@@ -64,6 +68,6 @@ export class ListarItensComponent {
     }
 
     this.data = valor;
-    event.target.value = valor;
+    target.value = valor;
   }
 }

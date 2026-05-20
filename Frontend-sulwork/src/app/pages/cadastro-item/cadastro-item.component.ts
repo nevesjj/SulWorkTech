@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { CafeService, ItemCafe } from '../../services/cafe.service';
+import { CafeService } from '../../services/cafe.service';
+import { ItemCafe } from '../../models/item-cafe';
 
 @Component({
   selector: 'app-cadastro-item',
@@ -11,7 +12,7 @@ import { CafeService, ItemCafe } from '../../services/cafe.service';
   styleUrls: ['./cadastro-item.component.css']
 })
 export class CadastroItemComponent {
-  item: ItemCafe = {
+  item: Omit<ItemCafe, 'idItem'> = {
     descricao: '',
     dataCafe: '',
     cpfColaborador: '',
@@ -57,14 +58,14 @@ export class CadastroItemComponent {
     }
 
     this.service.adicionarItem(this.item).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.mensagem = '✅ Item adicionado com sucesso!';
         this.item = { descricao: '', dataCafe: '', cpfColaborador: '', nomeColaborador: '' };
         form.resetForm();
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
-        if (err.error && typeof err.error === 'string') {
+        if (isErrorWithMessage(err)) {
           this.mensagem = '❌ ' + err.error;
         } else {
           this.mensagem = '❌ Erro ao adicionar item.';
@@ -74,8 +75,11 @@ export class CadastroItemComponent {
     
   }
   
-  formatarData(event: any) {
-    let valor = event.target.value.replace(/\D/g, '');
+  formatarData(event: Event) {
+    const target = event.target as HTMLInputElement | null;
+    if (!target) return;
+
+    let valor = target.value.replace(/\D/g, '');
 
     if (valor.length > 2 && valor.length <= 4) {
       valor = valor.substring(0, 2) + '/' + valor.substring(2);
@@ -85,6 +89,10 @@ export class CadastroItemComponent {
     }
 
     this.item.dataCafe = valor;
-    event.target.value = valor;
+    target.value = valor;
   }
+}
+
+function isErrorWithMessage(err: unknown): err is { error: string } {
+  return typeof err === 'object' && err !== null && 'error' in err && typeof err.error === 'string';
 }
